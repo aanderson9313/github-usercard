@@ -97,18 +97,29 @@ const cards = document.querySelector('.cards');
       const myCard = cardCreator(response.data);
       cards.appendChild(myCard);
       console.log(response.data);
-      return response.data;
+      return response.data.followers_url;
     })
-    .then( response => {
-      followersArray.forEach ( newUser => {
-        const newUser = cardCreator(response.data);
-        cards.appendChild();
-        console.log(response.data);
+    .then(followers => {
+      axios
+      .get(followers)
+      .then(response => {
+        response.data.forEach(follower => {
+          axios
+          .get(`https://api.github.com/users/${follower.login}`)
+          .then(Follow => {
+            const followerCard = cardCreator(Follow.data);
+            cards.appendChild(followerCard);
+          })
+        })
+        console.log(response);
+
       });
     })
+    
     .catch( error => {
       console.log('the data was not returned', error);
     });
+
   
 /* List of LS Instructors Github username's: 
   tetondan

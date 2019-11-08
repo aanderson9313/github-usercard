@@ -1,7 +1,8 @@
 /* Step 1: using axios, send a GET request to the following URL 
-           (replacing the palceholder with your Github name):
+           (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/aanderson9313');
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +25,7 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['IslaMcn', 'Heart8reak', 'munal92', 'aniiGar', 'JrodDvlpr'];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,7 +46,70 @@ const followersArray = [];
 </div>
 
 */
+const  cardCreator = (user) =>  {
+  // create new elements
+  const newCard = document.createElement('div');
+  const userImg = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const usersName = document.createElement('h3');
+  const userName = document.createElement('p');
+  const userLoc = document.createElement('p');
+  const userProf = document.createElement('p');
+  const userAdd = document.createElement('a');
+  const userFollowers = document.createElement('p');
+  const userFollowing = document.createElement('p');
+  const userBio = document.createElement('p');
 
+  // html tree
+newCard.appendChild(userImg);
+newCard.appendChild(cardInfo);
+cardInfo.appendChild(usersName);
+cardInfo.appendChild(userName);
+cardInfo.appendChild(userLoc);
+cardInfo.appendChild(userProf)
+cardInfo.appendChild(userFollowers);
+cardInfo.appendChild(userFollowing);
+cardInfo.appendChild(userBio);
+userProf.appendChild(userAdd);
+
+// set classlist
+newCard.classList.add('card');
+cardInfo.classList.add('card-info');
+usersName.classList.add('name');
+userName.classList.add('username');
+// content
+userImg.src = user.avatar_url;
+usersName.textContent = `${user.name}`;
+userName.textContent = `${user.login}`;
+userLoc.textContent = `${user.location}`;
+userFollowers.textContent = `${user.followers}`;
+userFollowing.textContent = `${user.following}`;
+userBio.textContent = `${user.bio}`;
+userProf.textContent = "Profile: ";
+userAdd.textContent = `${user.html_url}`;
+
+return newCard
+};
+const cards = document.querySelector('.cards');
+  axios
+  .get('https://api.github.com/users/aanderson9313')
+    .then(response => {
+      const myCard = cardCreator(response.data);
+      cards.appendChild(myCard);
+      console.log(response.data);
+      return response.data;
+    })
+    .then( response => {
+      followersArray.forEach ( newUser => {
+        const newUser = cardCreator(response.data);
+        cards.appendChild();
+        console.log(response.data);
+      });
+    })
+    .catch( error => {
+      console.log('the data was not returned', error);
+    });
+  
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
